@@ -1,0 +1,9 @@
+# Archivo Docker Compose para configurar servicios de la aplicacion y la base de datos.
+
+# Establece un contenedor PostgreSQL para el catalogo de productos.
+services:
+  catalogdb: # Nombre del servicio de la base de datos del catalogo
+    image: postgres # Imagen oficial de PostgreSQL
+
+volumes: # Especifica un volumen Docker para persistencia de datos.
+  postgres_catalog: # Volumen para almacenar datos de PostgreSQL del catalogo

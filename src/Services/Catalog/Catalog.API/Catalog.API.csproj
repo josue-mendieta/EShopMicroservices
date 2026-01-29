@@ -7,11 +7,14 @@
     <UserSecretsId>f97dea62-c8c2-46dd-9737-b7cf3e7263b4</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>    
     <PackageReference Include="Carter" Version="8.2.1" />    
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="Marten" Version="6.4.1" />    
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />    
+    <PackageReference Include="Npgsql" Version="7.0.7" />
   </ItemGroup>
 
   <ItemGroup>

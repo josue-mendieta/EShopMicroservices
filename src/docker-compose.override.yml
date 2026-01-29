@@ -1,0 +1,14 @@
+# Archivo docker-compose.override.yml para personalizar la configuracion del servicio de base de datos PostgreSQL.
+
+services: # Servicios definidos en el archivo docker-compose.yml
+  catalogdb: # Servicio de base de datos del catalogo creado en docker-compose.yml
+    container_name: catalogdb # Nombre personalizado para el contenedor
+    environment: # Variables de entorno para configurar PostgreSQL
+      - POSTGRES_USER=postgres # Usuario de la base de datos PostgreSQL
+      - POSTGRES_PASSWORD=postgres # Contrasena del usuario de la base de datos PostgreSQL
+      - POSTGRES_DB=CatalogDb # Nombre de la base de datos PostgreSQL
+    restart: always # Politica de reinicio del contenedor
+    ports: # Mapeo de puertos para acceder a PostgreSQL desde el host
+      - "5432:5432" # Mapea el puerto 5432 del contenedor al puerto 5432 del host
+    volumes: # Volumenes para persistencia de datos
+      - postgres_catalog:/var/lib/postgresql # Monta el volumen Docker en el directorio de datos de PostgreSQL dentro del contenedor
