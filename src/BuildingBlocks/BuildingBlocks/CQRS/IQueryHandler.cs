@@ -3,28 +3,19 @@
 namespace BuildingBlocks.CQRS;
 
 /// <summary>
-/// Defines a handler that processes a query and returns a response of the specified type.
-/// Define un manejador que procesa una consulta y devuelve una respuesta del tipo especificado.
+/// Defines a handler for processing queries that return a response.
+/// Define un manejador para procesar consultas que devuelven una respuesta.
 /// </summary>
-/// 
 /// <remarks>
-/// Implementations of this interface are responsible for handling queries and producing corresponding responses. 
-/// This interface is typically used in request-response or CQRS patterns to decouple query logic from its execution.
-/// 
-/// Las implementaciones de esta interfaz son responsables de manejar consultas y producir respuestas correspondientes.
-/// Esta interfaz se utiliza típicamente en patrones de solicitud-respuesta o CQRS para desacoplar la lógica de consulta de su ejecución.
+/// Implement this interface to handle query requests in a request-response pattern.
+/// Implementa esta interfaz para manejar solicitudes de consulta en un patrón de solicitud-respuesta.
+/// Typically used in applications following the CQRS (Command Query Responsibility Segregation) pattern to separate query logic from command handling.
+/// Típicamente se utiliza en aplicaciones que siguen el patrón CQRS (Command Query Responsibility Segregation) para separar la lógica de consulta del manejo de comandos.
 /// 
 /// </remarks>
-/// 
-/// <typeparam name="TQuery">
-/// The type of query to be handled. Must implement <see cref="IQuery{TResponse}"/>.
-/// El tipo de consulta a manejar. Debe implementar <see cref="IQuery{TResponse}"/>.
-/// </typeparam>
-/// <typeparam name="TResponse">
-/// The type of response returned by the handler. Must not be null.
-/// El tipo de respuesta devuelta por el manejador. No debe ser nulo.
-/// </typeparam>
-public interface IQueryHandler<TQuery, TResponse>
+/// <typeparam name="TQuery">The type of the query to handle. Must implement <see cref="IQuery{TResponse}"/>.</typeparam>
+/// <typeparam name="TResponse">The type of the response returned by the handler. Must not be null.</typeparam>
+public interface IQueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, TResponse>
     where TQuery : IQuery<TResponse>
     where TResponse : notnull
 {

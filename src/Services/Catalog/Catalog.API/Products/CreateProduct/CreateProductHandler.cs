@@ -32,7 +32,6 @@ internal class CreateProductHandler(IDocumentSession session) : ICommandHandler<
     /// <exception cref="NotImplementedException"></exception>
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-
         //Create product entity from command object 
         var product = new Product
         {
@@ -42,8 +41,7 @@ internal class CreateProductHandler(IDocumentSession session) : ICommandHandler<
             ImageFile = command.ImageFile,
             Price = command.Price
         };
-
-        //TODO: Save product entity to database
+        
         session.Store(product);
         await session.SaveChangesAsync(cancellationToken);
 
