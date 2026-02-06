@@ -24,7 +24,7 @@ public record GetProductsResult(IEnumerable<Product> Products);
 /// </summary>
 /// <param name="session">The document session used to query the product data source.</param>
 /// <param name="logger">The logger used to record diagnostic and operational information for this handler.</param>
-public class GetProductsQueryHandler(
+internal class GetProductsQueryHandler(
     IDocumentSession session,
     ILogger<GetProductsQueryHandler> logger
     ) : IQueryHandler<GetProductsQuery, GetProductsResult>
