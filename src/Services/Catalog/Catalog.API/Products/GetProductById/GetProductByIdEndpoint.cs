@@ -26,6 +26,14 @@ public record GetProductByIdResponse(Product Product);
 /// </remarks>
 public class GetProductByIdEndpoint : ICarterModule
 {
+    /// <summary>
+    /// Configures product-related HTTP endpoints for the application, including a route to retrieve a product by its unique identifier.
+    /// Configura los endpoints HTTP relacionados con productos para la aplicación, incluyendo una ruta para recuperar un producto por su identificador único.
+    /// </summary>
+    /// <remarks>This method adds a GET endpoint at '/products/{id:guid}' that returns product details for the
+    /// specified product ID. The endpoint supports standard HTTP status codes for success and error conditions,
+    /// including 200 (OK), 400 (Bad Request), 404 (Not Found), and 500 (Internal Server Error).</remarks>
+    /// <param name="app">The endpoint route builder used to define and register HTTP routes for the application.</param>
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         // GET /products/{id}

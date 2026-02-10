@@ -43,6 +43,17 @@ internal class GetProductByIdQueryHandler(
     IDocumentSession session
     ) : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>
 {
+    /// <summary>
+    /// Handles a request to retrieve a product by its identifier.
+    /// Maneja una solicitud para recuperar un producto por su identificador.
+    /// </summary>
+    /// <param name="query">
+    /// The query containing the identifier of the product to retrieve. Cannot be null.
+    /// La consulta que contiene el identificador del producto a recuperar. No puede ser nulo.
+    /// </param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A result object containing the requested product. The result includes product details if found.</returns>
+    /// <exception cref="ProductNotFoundException">Thrown if no product exists with the specified identifier.</exception>
     public async Task<GetProductByIdResult> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
     {
         logger.LogInformation("GetProductByIdHandler.Handle called with {@Query}", query);
