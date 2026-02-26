@@ -1,4 +1,6 @@
-﻿namespace Catalog.API.Products.CreateProduct;
+﻿using Microsoft.Extensions.Logging;
+
+namespace Catalog.API.Products.CreateProduct;
 
 /// <summary>
 /// Registro que representa el comando para crear un nuevo producto en el sistema, heredando de IRequest de MediatR para definir el tipo de resultado esperado.
@@ -21,7 +23,10 @@ public record CreateProductResult(Guid Id);
 /// según el patrón CQRS es el handler del comando para crear un nuevo producto en el sistema 
 /// (logica de negocio para crear el producto).
 /// </summary>
-internal class CreateProductHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
+internal class CreateProductCommandHandler(
+    ILogger<CreateProductCommandHandler> logger,
+    IDocumentSession session
+    ) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     /// <summary>
     /// Método encargado de manejar la lógica para crear un nuevo producto en el sistema.
@@ -32,6 +37,9 @@ internal class CreateProductHandler(IDocumentSession session) : ICommandHandler<
     /// <exception cref="NotImplementedException"></exception>
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
+
+        logger.LogInformation("CreateProductCommandHandler.Handle called with {@Command}", command);
+
         //Create product entity from command object 
         var product = new Product
         {
