@@ -15,6 +15,7 @@ builder.Services.AddMediatR(config =>
     config.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
 
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 builder.Services.AddMarten(options =>
 {
@@ -25,7 +26,8 @@ builder.Services.AddMarten(options =>
     //options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
 
 }).UseLightweightSessions();
-    
+
+
 
 var app = builder.Build();
 
