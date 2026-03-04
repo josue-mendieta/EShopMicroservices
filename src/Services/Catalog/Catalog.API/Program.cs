@@ -1,21 +1,27 @@
+using BuildingBlocks.Behaviors;
 using Weasel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Add services to the container.
 
-//Se registran los servicios necesarios para utilizar Carter en la aplicación, asi como los Endpoints definidos con Carter, es decir, los módulos que implementan ICarterModule.
-builder.Services.AddCarter();
-
+var assembly = typeof(Program).Assembly;
 
 builder.Services.AddMediatR(config =>
 {
     //Registrar todos los manejadores (handlers) desde el ensamblado actual, considerando que los manejadores implementan IRequest de MediatR.
     // En este caso, los manejadores pueden ser tanto comandos (ICommandHandler) como consultas (IQueryHandler).
-    config.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    config.RegisterServicesFromAssembly(assembly);
+
+    //Registrar el comportamiento de validación (ValidationBehavior) para que se ejecute antes de los manejadores de comandos o consultas, permitiendo que las validaciones definidas con FluentValidation se apliquen automáticamente a las solicitudes entrantes.
+    // ValidationBehavior<,> significa que se aplicará a cualquier comando o consulta, independientemente de su tipo de resultado, siempre y cuando implementen IRequest de MediatR.
+    config.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
 
-builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+builder.Services.AddValidatorsFromAssembly(assembly);
+
+//Se registran los servicios necesarios para utilizar Carter en la aplicación, asi como los Endpoints definidos con Carter, es decir, los módulos que implementan ICarterModule.
+builder.Services.AddCarter();
+
 
 builder.Services.AddMarten(options =>
 {

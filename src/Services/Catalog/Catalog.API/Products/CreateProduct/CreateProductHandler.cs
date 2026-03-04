@@ -59,8 +59,7 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
 /// </summary>
 internal class CreateProductCommandHandler(
     ILogger<CreateProductCommandHandler> logger,
-    IDocumentSession session,
-    IValidator<CreateProductCommand> validator
+    IDocumentSession session    
     ) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     /// <summary>
@@ -73,15 +72,6 @@ internal class CreateProductCommandHandler(
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
         logger.LogInformation("CreateProductCommandHandler.Handle called with {@Command}", command);
-
-        var validationResult = await validator.ValidateAsync(command, cancellationToken);
-
-        if (!validationResult.IsValid)
-        {
-            var validationErrors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            logger.LogWarning("Validation failed for CreateProductCommand: {@Errors}", validationErrors);
-            throw new ValidationException(validationResult.Errors);
-        }
 
         //Create product entity from command object 
         var product = new Product
