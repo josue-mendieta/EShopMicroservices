@@ -9,7 +9,7 @@ namespace Catalog.API.Products.DeleteProduct;
 /// The unique identifier of the product to delete.
 /// El identificador único del producto a eliminar.
 /// </param>
-record DeleteProductCommand(Guid Id) : ICommand<DeleteProductResult>;
+public record DeleteProductCommand(Guid Id) : ICommand<DeleteProductResult>;
 
 /// <summary>
 /// Represents the result of a product deletion operation, indicating whether the deletion was successful.
@@ -19,7 +19,22 @@ record DeleteProductCommand(Guid Id) : ICommand<DeleteProductResult>;
 /// true if the product was deleted successfully; otherwise, false.
 /// true si el producto fue eliminado con éxito; de lo contrario, false.
 /// </param>
-record DeleteProductResult(bool IsSuccess);
+public record DeleteProductResult(bool IsSuccess);
+
+/// <summary>
+/// Clase para configurar las reglas de validación para los comandos de eliminación de productos, asegurando que el identificador del producto no esté vacío.
+/// </summary>
+public class DeleteProductCommandValidator : AbstractValidator<DeleteProductCommand>
+{
+    /// <summary>
+    /// Initializes a new instance of the DeleteProductCommandValidator class, configuring validation rules for product deletion commands.
+    /// Inicializa una nueva instancia de la clase DeleteProductCommandValidator, configurando reglas de validación para los comandos de eliminación de productos.
+    /// </summary>
+    public DeleteProductCommandValidator()
+    {
+        RuleFor(command => command.Id).NotEmpty().WithMessage("Product ID is required.");
+    }
+}
 
 /// <summary>
 /// Handles commands to delete a product from the data store.

@@ -24,6 +24,36 @@ public record UpdateProductCommand(Guid Id, string Name, List<string> Category, 
 public record UpdateProductResult(bool IsSuccess);
 
 /// <summary>
+/// Provides validation rules for the UpdateProductCommand to ensure that product update requests contain valid and required data.
+/// Proporciona reglas de validación para el UpdateProductCommand para garantizar que las solicitudes de actualización de productos contengan datos válidos y requeridos.
+/// </summary>
+/// <remarks>
+/// This validator enforces constraints such as non-empty product ID, name, category, description, image file, and a non-negative price. 
+/// Este validador impone restricciones como un ID de producto no vacío, nombre, categoría, descripción, archivo de imagen y un precio no negativo.
+/// It is typically used in command handling pipelines to validate incoming product update requests before processing.
+/// Típicamente se utiliza en los pipelines de manejo de comandos para validar las solicitudes de actualización de productos entrantes antes de procesarlas.
+/// </remarks>
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+{
+    /// <summary>
+    /// Contructor que configura las reglas de validación para el UpdateProductCommand, asegurando que los campos requeridos estén presentes y sean válidos.
+    /// </summary>
+    public UpdateProductCommandValidator()
+    {
+        RuleFor(command => command.Id).NotEmpty().WithMessage("Product ID is required.");
+
+        RuleFor(command => command.Name)
+            .NotEmpty().WithMessage("Name is required.")
+            .Length(2,150).WithMessage("Name must be between 2 and 150 characters.");
+
+        RuleFor(command => command.Category).NotEmpty().WithMessage("At least one category is required.");
+        RuleFor(command => command.Description).NotEmpty().WithMessage("Description is required.");
+        RuleFor(command => command.ImageFile).NotEmpty().WithMessage("Image file is required.");
+        RuleFor(command => command.Price).GreaterThanOrEqualTo(0).WithMessage("Price must be greater than or equal to zero.");
+    }
+}
+
+/// <summary>
 /// Handles the update operation for a product by processing an UpdateProductCommand and persisting changes to the data store.
 /// Maneja la operación de actualización para un producto procesando un UpdateProductCommand y persistiendo los cambios en el almacén de datos.
 /// </summary>
