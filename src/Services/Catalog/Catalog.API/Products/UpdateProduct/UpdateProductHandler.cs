@@ -44,7 +44,7 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
 
         RuleFor(command => command.Name)
             .NotEmpty().WithMessage("Name is required.")
-            .Length(2,150).WithMessage("Name must be between 2 and 150 characters.");
+            .Length(2, 150).WithMessage("Name must be between 2 and 150 characters.");
 
         RuleFor(command => command.Category).NotEmpty().WithMessage("At least one category is required.");
         RuleFor(command => command.Description).NotEmpty().WithMessage("Description is required.");
@@ -57,25 +57,15 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
 /// Handles the update operation for a product by processing an UpdateProductCommand and persisting changes to the data store.
 /// Maneja la operación de actualización para un producto procesando un UpdateProductCommand y persistiendo los cambios en el almacén de datos.
 /// </summary>
-/// <param name="logger">The logger used to record informational and warning messages during command handling.</param>
 /// <param name="session">The document session used to load, update, and save product data.</param>
 internal class UpdateProductCommandHandler(
-    ILogger<UpdateProductCommandHandler> logger,
     IDocumentSession session
     )
     : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
     public async Task<UpdateProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("UpdateProductHandler.Handle called with {@Command}", command);
-
-            var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
-
-        if (product == null)
-        {
-            logger.LogWarning("Product with id {ProductId} not found for update.", command.Id);
-            throw new ProductNotFoundException(command.Id);
-        }
+        var product = await session.LoadAsync<Product>(command.Id, cancellationToken) ?? throw new ProductNotFoundException(command.Id);
 
         product.Name = command.Name;
         product.Category = command.Category;

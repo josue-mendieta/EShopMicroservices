@@ -36,10 +36,8 @@ public record GetProductByCategoryResult(IEnumerable<Product> Products);
 /// Destinado para uso interno dentro de la infraestructura de manejo de consultas de la aplicación.
 /// 
 /// </remarks>
-/// <param name="logger">The logger used to record informational and diagnostic messages during query handling.</param>
 /// <param name="session">The document session used to query the product data store.</param>
-internal class GetProductByCategoryQueryHandler(
-    ILogger<GetProductByCategoryQueryHandler> logger,
+internal class GetProductByCategoryQueryHandler( 
     IDocumentSession session
     ) : IQueryHandler<GetProductByCategoryQuery, GetProductByCategoryResult>
 {
@@ -60,8 +58,7 @@ internal class GetProductByCategoryQueryHandler(
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
     /// <returns>A result object containing the list of products matching the specified category.</returns>
     public async Task<GetProductByCategoryResult> Handle(GetProductByCategoryQuery query, CancellationToken cancellationToken)
-    {
-        logger.LogInformation("Handling GetProductByCategoryQuery for Category: {Category}", query.Category);
+    {        
         var products = await session.Query<Product>()
             .Where(p => p.Category.Contains(query.Category))
             .ToListAsync(cancellationToken);

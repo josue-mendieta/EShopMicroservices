@@ -12,8 +12,12 @@ builder.Services.AddMediatR(config =>
     //Registrar el comportamiento de validación (ValidationBehavior) para que se ejecute antes de los manejadores de comandos o consultas, permitiendo que las validaciones definidas con FluentValidation se apliquen automáticamente a las solicitudes entrantes.
     // ValidationBehavior<,> significa que se aplicará a cualquier comando o consulta, independientemente de su tipo de resultado, siempre y cuando implementen IRequest de MediatR.
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+
+    config.AddOpenBehavior(typeof(LoggingBehavior<,>));
+
 });
 
+//Se agregan los validadores definidos en el ensamblado actual, considerando que los validadores heredan de AbstractValidator de FluentValidation y están asociados a los comandos o consultas correspondientes.
 builder.Services.AddValidatorsFromAssembly(assembly);
 
 //Se registran los servicios necesarios para utilizar Carter en la aplicación, asi como los Endpoints definidos con Carter, es decir, los módulos que implementan ICarterModule.

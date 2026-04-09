@@ -30,16 +30,11 @@ public record GetProductByIdResult(Product Product);
 /// It requires a valid document session and logger to operate correctly.
 /// Este requiere una sesión de documentos válida y un registrador para operar correctamente.
 /// </remarks>
-/// <param name="logger">
-/// The logger used to record diagnostic and operational information during query handling.
-/// El registrador utilizado para registrar información diagnóstica y operativa durante el manejo de consultas.
-/// </param>
 /// <param name="session">
 /// The document session used to access and load product data from the data store.
 /// El sesión de documentos utilizada para acceder y cargar datos de productos desde el almacén de datos.
 /// </param>
-internal class GetProductByIdQueryHandler(
-    ILogger<GetProductByIdQueryHandler> logger,
+internal class GetProductByIdQueryHandler(    
     IDocumentSession session
     ) : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>
 {
@@ -55,8 +50,7 @@ internal class GetProductByIdQueryHandler(
     /// <returns>A result object containing the requested product. The result includes product details if found.</returns>
     /// <exception cref="ProductNotFoundException">Thrown if no product exists with the specified identifier.</exception>
     public async Task<GetProductByIdResult> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
-    {
-        logger.LogInformation("GetProductByIdHandler.Handle called with {@Query}", query);
+    {        
         var product = await session.LoadAsync<Product>(query.Id, cancellationToken);
 
         if (product == null)

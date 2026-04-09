@@ -23,16 +23,12 @@ public record GetProductsResult(IEnumerable<Product> Products);
 /// Maneja consultas para recuperar productos del almacén de datos.
 /// </summary>
 /// <param name="session">The document session used to query the product data source.</param>
-/// <param name="logger">The logger used to record diagnostic and operational information for this handler.</param>
 internal class GetProductsQueryHandler(
-    IDocumentSession session,
-    ILogger<GetProductsQueryHandler> logger
+    IDocumentSession session
     ) : IQueryHandler<GetProductsQuery, GetProductsResult>
 {
     public async Task<GetProductsResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
-    {
-        //TODO: Validar el proveedor de los logs por si se puede usar {@Query} parece que solo funciona con Serilog
-        logger.LogInformation("GetProductsQueryHandler.Handle called with {@Query}", query);
+    {        
         var products = await session.Query<Product>().ToListAsync(cancellationToken);
         
         return new GetProductsResult(products);

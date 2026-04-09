@@ -57,8 +57,7 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
 /// según el patrón CQRS es el handler del comando para crear un nuevo producto en el sistema 
 /// (logica de negocio para crear el producto).
 /// </summary>
-internal class CreateProductCommandHandler(
-    ILogger<CreateProductCommandHandler> logger,
+internal class CreateProductCommandHandler(    
     IDocumentSession session    
     ) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
@@ -71,8 +70,6 @@ internal class CreateProductCommandHandler(
     /// <exception cref="NotImplementedException"></exception>
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("CreateProductCommandHandler.Handle called with {@Command}", command);
-
         //Create product entity from command object 
         var product = new Product
         {

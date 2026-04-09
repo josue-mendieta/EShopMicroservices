@@ -40,10 +40,8 @@ public class DeleteProductCommandValidator : AbstractValidator<DeleteProductComm
 /// Handles commands to delete a product from the data store.
 /// Maneja comandos para eliminar un producto del almacén de datos.
 /// </summary>
-/// <param name="logger">The logger used to record informational and warning messages during command handling.</param>
 /// <param name="session">The document session used to access and modify product data in the data store.</param>
-internal class DeleteProductCommandHandler(
-    ILogger<DeleteProductCommandHandler> logger,
+internal class DeleteProductCommandHandler(    
     IDocumentSession session
     ) : ICommandHandler<DeleteProductCommand, DeleteProductResult>
 {
@@ -59,8 +57,6 @@ internal class DeleteProductCommandHandler(
     /// <returns>A result indicating whether the product was successfully deleted.</returns>
     public async Task<DeleteProductResult> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("DeleteProductCommandHandler.Handle called with {@Command}", command);
-
         session.Delete<Product>(command.Id);
 
         await session.SaveChangesAsync(cancellationToken);
