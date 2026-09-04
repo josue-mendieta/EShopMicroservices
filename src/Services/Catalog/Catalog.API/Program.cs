@@ -1,3 +1,5 @@
+using Catalog.API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -34,7 +36,13 @@ builder.Services.AddMarten(options =>
 
 }).UseLightweightSessions();
 
+if (builder.Environment.IsDevelopment())
+{
+    // Si el entorno es de desarrollo, se inicializan los datos de prueba en la base de datos utilizando la clase CatalogInitialData, que implementa la interfaz IInitialData.
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+}
 
+// Se registra un manejador de excepciones personalizado (CustomExceptionHandler) para manejar las excepciones no controladas en la aplicación, proporcionando una respuesta adecuada al cliente.
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 
@@ -46,7 +54,7 @@ app.MapCarter();
 
 app.UseExceptionHandler(options =>
 {
-    
+
 });
 
 app.Run();

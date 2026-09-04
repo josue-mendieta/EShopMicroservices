@@ -6,6 +6,11 @@ using Microsoft.Extensions.Logging;
 
 namespace BuildingBlocks.Exceptions.Handler;
 
+/// <summary>
+/// Represents a custom exception handler that handles exceptions and generates appropriate HTTP responses.
+/// Representa un manejador de excepciones personalizado que maneja excepciones y genera respuestas HTTP apropiadas.
+/// </summary>
+/// <param name="logger"></param>
 public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
